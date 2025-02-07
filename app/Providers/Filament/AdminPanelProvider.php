@@ -32,10 +32,11 @@ class AdminPanelProvider extends PanelProvider
                 // 'primary' => '#674CC4',
                 'primary' => 'rgb(103, 76, 196)',
             ])
+            // ->globalSearchKeyBindings(['command+k','ctrl+k'])
             ->font('Poppins')
             ->favicon('https://zamanitc.com/images/blogs/1735314262.png')
             ->darkMode(false)
-            
+
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
