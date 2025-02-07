@@ -30,6 +30,19 @@ class OrderResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
     protected static ?int $navigationSort = 3;
     protected static ?string $navigationGroup = 'Shop';
+    public static function getNavigationBadge():?string
+    {
+        // return 'NEW';
+        return static::getModel()::where('status','=','processing')->count();
+    }
+
+    public static function getNavigationBadgeColor():?string
+    {
+        // return 'NEW';
+        return static::getModel()::where('status','=','processing')->count() > 10
+        ? 'warning' : 'primary';
+
+    }
     public static function form(Form $form): Form
     {
         return $form
