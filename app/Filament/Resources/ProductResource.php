@@ -9,33 +9,37 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use App\Enums\ProductTypeEnum;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\ProductResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ProductResource\RelationManagers;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TernaryFilter;
 
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-bolt';
-    protected static ?string $navigationGroup = 'Products';
-    protected static ?string $navigationLabel = 'Shop';
-
+    protected static ?string $navigationGroup = 'Shop';
+    protected static ?string $navigationLabel = 'Products';
+    protected static ?int $navigationSort = 0;
     public static function form(Form $form): Form
     {
         return $form
@@ -156,7 +160,11 @@ class ProductResource extends Resource
                     ->relationship('brand','name'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+              Tables\Actions\ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+              ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
